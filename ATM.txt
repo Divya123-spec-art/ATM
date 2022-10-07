@@ -1,0 +1,187 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Scanner;
+
+
+public class CashLoading {
+
+public static void main(String[] args) throws Exception{
+Scanner sc=new Scanner(System.in);
+Class.forName("oracle.jdbc.driver.OracleDriver");
+Connection conn=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","SYSTEM","Divya@0514");
+Statement stmt= conn.createStatement();
+ResultSet rs;
+int ch=sc.nextInt();
+switch(ch) {
+case 1:
+  int twenty_th=s.nextInt();
+  int five_hund=s.nextInt();
+  int hund=s.nextInt();
+  rs=stmt.executeQuery("Select count(*) from CashLoading");
+  st.executeUpdate("Insert into atm values(2000,"+twenty_th+","+(2000*twenty_th)+")");
+  st.executeUpdate("Insert into atm values(500,"+five_hund+","+(500*five_hund)+")");
+  st.executeUpdate("Insert into atm values(100,"+hund+","+(100*hund)+")");
+  System.out.println("Amount Entered Successfully !");
+break;
+case 2: rs=stmt.executeQuery("Select * from customers");
+while(rs.next()) {
+System.out.println(rs.getInt(1)+"       "+rs.getString(2)+"               "+rs.getInt(3)+"     "
++ "  "+rs.getInt(4));
+}
+break;
+case 3:
+int total=0;
+rs=stmt.executeQuery("Select * from CashLoading");
+while(rs.next()) {
+System.out.println(rs.getInt(1)+"            "+rs.getInt(2)+"       "+rs.getInt(3));
+total+=rs.getInt(3);
+}
+System.out.println();
+System.out.println("Total amount= "+total);
+break;
+default:System.out.println("It is not an valid input...Please enter a valid input");
+}
+s.close();
+}
+
+}
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class CustomerDetails {
+public static void main(String[] args) throws Exception{
+Scanner sc= new Scanner(System.in);
+Class.forName("oracle.jdbc.driver.OracleDriver");
+Connection conn=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","SYSTEM","Divya@0514");
+Statement stmt= conn.createStatement();
+int total=0;
+rs=stmt.executeQuery("Select value from atm");
+while(rs.next()) total+=rs.getInt(1);
+System.out.println("1. Check Balance");
+System.out.println("2. Withdraw Money");
+System.out.println("3. Transfer Money");
+int ch=sc.nextInt();
+switch(ch) {
+case 1:
+System.out.println("Enter your account number : ");
+int ano=sc.nextInt();
+ResultSet rs;
+rs=stmt.executeQuery("Select count(*) from customers where acc_no="+ano);
+rs=stmt.executeQuery("select * from customers where acc_no="+ano);
+while(rs.next()) {
+acc_no=rs.getInt(1);
+name=rs.getString(2);
+pin_no=rs.getInt(3);
+acc_bal=rs.getInt(4);
+}
+System.out.println("Enter your pin number : ");
+int pino=sc.nextInt();
+if(pino==pin_no) {
+System.out.println("Account details...");
+System.out.println("Account Number : "+acc_no);
+System.out.println("Account Holder Name : "+name);
+System.out.println("Account Balance : Rs."+acc_bal);
+}
+else {
+System.out.println("Enter the crt pin and account number");
+}
+}
+break;
+case 2:
+
+System.out.println("Enter your account number : ");
+ano=s.nextInt();
+rs=stmt.executeQuery("Select count(*) from customers where acc_no="+ano);
+rs=stmt.executeQuery("select * from customers where acc_no="+acno);
+while(rs.next()) {
+acc_no=rs.getInt(1);
+name=rs.getString(2);
+pin_no=rs.getInt(3);
+acc_bal=rs.getInt(4);
+}
+System.out.println("Enter your pin number : ");
+int pino=s.nextInt();
+if(pino==pin_no) {
+System.out.println("Enter amount ");
+amount=sc.nextInt();
+int t=0,t1=amount;
+if((amount>10000 || amount<100) && amount%100==0 )
+System.out.println("Amount to be withdrawn should be in the given range");
+else if(amount>acc_bal)
+System.out.println("Account balance is lower");
+else {
+while(amount>3000) {
+withd_amount+=2000;
+stmt.executeUpdate("update customers set acc_bal=acc_bal-2000 where acc_no="+acc_no);
+amount-=2000;
+t+=2000;
+}
+while(amount>1000) {
+withd_amount+=500;
+stmt.executeUpdate("update customers set acc_bal=acc_bal-500 where acc_no="+acc_no);
+amount-=500;
+t+=500;
+}
+while(amount>0) {
+m+=100;
+amount-=100;
+t+=100;
+}
+withd_amount+=m;
+stmt.executeUpdate("update customers set acc_bal=acc_bal-"+h_no+" where acc_no="+acc_no);
+stmt.executeUpdate("update atm set number=number-"+(h_no/100) +" where denomination=100");
+stmt.executeUpdate("update atm set value=value-"+h_no +" where denomination=100");
+}
+System.out.println("The amount is withdrawn");
+}
+else {
+System.out.println("Enter the valid number");
+}
+}
+break;
+case 3:
+System.out.println("Enter your account number : ");
+ano=sc.nextInt();
+rs=stmt.executeQuery("Select count(*) from customers where acc_no="+ano);
+rs=stmt.executeQuery("select * from customers where acc_no="+acno);
+while(rs.next()) {
+acc_no=rs.getInt(1);
+name=rs.getString(2);
+pin_no=rs.getInt(3);
+acc_bal=rs.getInt(4);
+}
+System.out.println("Enter your pin number : ");
+int pino=s.nextInt();
+if(pino==pin_no) {
+System.out.println("Enter the account number you want to transfer ");
+int acno=s.nextInt();
+boolean bb=true;
+rs=stmt.executeQuery("Select count(*) from customers where acc_no="+acno);
+System.out.println("Enter the amount to transfer : ");
+int t3=sc.nextInt();
+if(t3>acc_bal) {
+System.out.println("Account Balance is too low");
+}
+else {
+stmt.executeUpdate("update customers set acc_bal=acc_bal-"+t3+" where acc_no="+acc_no);
+stmt.executeUpdate("update customers set acc_bal=acc_bal+"+t3+" where acc_no="+aacno);
+System.out.println("Amount transfered successfully ");
+}
+}
+}
+else {
+System.out.println("Enter the valid number");
+}
+}
+break;
+default:System.out.println("It is not an valid input...Please enter a valid input");
+
+}
+s.close();
+}
+}
